@@ -1,0 +1,83 @@
+{% load i18n movie_tag %}
+    <!-- header -->
+    <header class="header">
+        <div class="container-fluid px-lg-5">
+            <!-- nav -->
+            <nav class="py-4">
+                <div id="logo">
+                    <h1><a href="index.html" class="editContent"
+                           style="outline: none; outline-offset: -2px; cursor: inherit; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Source Sans Pro&quot;, sans-serif;">DjangoMovie</a>
+                    </h1>
+                </div>
+
+                <label for="drop" class="toggle">Menu</label>
+                <input type="checkbox" id="drop">
+                <ul class="menu mt-2">
+                    <li class="active"><a href="index.html">{% trans 'Главная' %}</a></li>
+                    <li>
+                        <!-- First Tier Drop Down -->
+                        <label for="drop-2" class="toggle">Категории <span class="fa fa-angle-down"
+                                                                           aria-hidden="true"></span> </label>
+                        <a href="#">{% trans 'Категории' %} <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                        <input type="checkbox" id="drop-2">
+                        <ul>
+                            {% get_categories as categories %}
+                            {% for category in categories %}
+                                <li><a href="/">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li>
+                        {% if user.is_authenticated %}
+                            <span style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">{% trans 'Привет' %} {{ user.username }}</span>
+                            <a href="{% url 'account_logout' %}"
+                               style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">{% trans 'Выйти' %}
+                            </a>
+                        {% else %}
+                            <a href="{% url 'account_login' %}"
+                               style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">{% trans 'Войти' %}
+                            </a>
+                            /
+                            <a href="{% url 'account_signup' %}"
+                               style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">{% trans 'Регистрация' %}
+                            </a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ redirect_to }}">
+                            <select name="language" id="">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages  %}
+                                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}
+                                    selected
+                                    {% endif %} >
+                                    {{ language.name_local }} ({{ language.code }})
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+                            <input type="submit" value="GO">
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <!-- //nav -->
+        </div>
+    </header>
+    <!-- //header -->
+    <!--/banner-->
+    <div class="banner-info">
+        <p class="editContent">лучший сайт на django 3</p>
+        <h3 class="mb-4 editContent">Все о кино</h3>
+        <div class="ban-buttons">
+
+
+        </div>
+    </div>
+    <!--// banner-inner -->
+
+</div>

@@ -1,0 +1,48 @@
+{% extends 'movieengine/base.html' %}
+
+{% load static %}
+{% block title %}
+    {{ actor.name }}
+{% endblock %}
+{% block container %}
+    <div class="container py-md-3">
+{% endblock container %}
+
+{% block sidebar %}
+    <div class="side-bar col-lg-4 ">
+{% endblock sidebar %}
+{% block movie %}
+    <div class="left-ads-display col-lg-8">
+        <div class="row">
+            <div class="desc1-left col-md-6">
+                <img src="{{ actor.images.url }}" class="img-fluid" alt="">
+            </div>
+            <div class="desc1-right col-md-6 pl-lg-4">
+                <h5 class="editContent">{{ actor.name }}</h5>
+                <ul>
+                    <li><span><b>Возраст:</b>{{ actor.age }}</span></li>
+                    <li>
+                        <span><b>Режиссер:</b>
+                            {% for movie in actor.film_director.all %}
+                                <a href="{% url 'movie_detail' movie.url %}">{{ movie.title }}</a>,
+                            {% endfor %}
+                        </span></li>
+                    <li>
+                        <span><b>Актер:</b>
+                        {% for movie in actor.film_actor.all %}
+                            <a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a>,
+                        {% endfor %}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row sub-para-w3layouts mt-5">
+            <h3 class="shop-sing editContent" style="outline: none; cursor: inherit;">
+                О  {{ actor.name }}
+            </h3>
+            <p class="editContent">{{ actor.description | safe }}</p>
+        </div>
+    </div>
+
+{% endblock movie %}
